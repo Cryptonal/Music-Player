@@ -5,8 +5,56 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-    
+    <div class="wrapper">
+        <div class="top-bar">
+            <i class="material-icons">expand_more</i>
+            <span>Now Playing</span>
+            <i class="material-icons">more_horizon</i>
+        </div>
+        <div class="img-area">
+            <img src="" alt="">
+        </div>
+        <div class="song-details">
+            <p class="name"> Set fire to the Rain </p>
+            <p class="artist">Adelle</p>
+        </div>
+        <div class="progress-area">
+            <div class="progress-bar">
+                <audio id="main-audio" src=""></audio>
+            </div>
+            <div class="song-timer">
+                <span class="current-time">0.00</span>
+                <span class="max-duration">3.20</span>
+            </div>
+        </div>
+        <div class="controls">
+            <i id="repeat-plist" class="material-icons" title="Playlist Looped">repeat</i>
+            <i id="prev" class="material-icons">skip_previous</i>
+            <div class="play-pause">
+                <i class="material-icons play">play_arrow</i>
+                <i class="material-icons" id="next">skip_next</i>
+                <i id="more-music" class="material-icons">queue_music</i>
+            </div>
+        </div>
+        <div class="music-list">
+            <div class="header">
+                <div class="row">
+                    <i class="list material-icons">queue_music</i>
+                    <span>music List</span>
+                </div>
+                <i id="close" class="material-icons">close</i>
+            </div>
+            <ul>
+                <!-- Music list will be exposed here from Javascript  -->
+            </ul>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script src="/js/music-list.js"></script>
 </body>
 </html>
