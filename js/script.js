@@ -213,3 +213,43 @@ for (let i = 0; i < allMusic.length; i++) {
     })
 
 }
+
+function playingSong(){
+    const allLiTag = ulTag.querySelectorAll("li");;
+
+    //Algo
+     /*
+        --> iterate over all li elements (our music items)
+        --> extract audio duration of each track using getAttribute method
+        --> current music track index to add class playing using classlist property
+        --> And finally click event for each song on list to play
+     */
+
+    for(let j=0; j < allLiTag.length; j++){
+        let audioTag = allLiTag[j].querySelector(".audio-duration");
+
+        if(allLiTag[j].classList.contains("playing")){
+            allLiTag[j].classList.remove("playing");
+
+            let addDuration = audioTag.getAttribute("t-duration");
+            audioTag.innerText = addDuration;
+            }
+
+            if(allLiTag[j].getAttribute("li-index") == musicIndex){
+                allLiTag[j].classList.add("playing");
+                audioTag.innerText = "Playing";
+            }
+
+            //Now, function handdling for if we click any song from playlist
+            allLiTag[j].setAttribute("onclick", "clicked(this)");
+    }
+}
+
+function clicked(element){
+    let getIndex = element.getAttribute("li-index");
+    musicIndex = getIndex;
+    loadMusic(musicIndex);
+    playSong();
+    playingSong();
+}
+ 
