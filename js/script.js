@@ -28,8 +28,8 @@ window.addEventListener("load", ()=>{
 function loadMusic(index){
     musicName.innerText = allMusic[index - 1].name;
     musicArtist.innerText = allMusic[index - 1].artist;
-    musicImg.src = `images/${allMusic[index - 1].src}.jpg`;
-    mainAudio.src = `songs/${allMusic[index - 1].src}.mp3`;
+    musicImg.src = `https://cryptonal.github.io/Music-Player/images/${allMusic[index - 1].src}.jpg`;
+    mainAudio.src = `https://cryptonal.github.io/Music-Player/songs/${allMusic[index - 1].src}.mp3`;
 }
 
 function playSong(){
