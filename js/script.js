@@ -1,4 +1,4 @@
-import {allMusic} from "./music-list.js"; 
+import { allMusic } from "./music-list.js";
 
 const wrapper = document.querySelector(".wrapper");
 const musicImg = wrapper.querySelector(".img-area img");
