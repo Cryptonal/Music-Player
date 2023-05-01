@@ -1,4 +1,4 @@
-export const allMusic = [
+const allMusic = [
     {
         name: "Harley Bird - Home",
         artist: "Jordan Schor",
@@ -36,3 +36,5 @@ export const allMusic = [
         src: "music-6"
     },
 ]
+
+export { allMusic };
