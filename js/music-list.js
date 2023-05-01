@@ -1,4 +1,4 @@
-let allMusic = [
+export const allMusic = [
     {
         name: "Harley Bird - Home",
         artist: "Jordan Schor",
