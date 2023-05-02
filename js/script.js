@@ -4,135 +4,135 @@ const wrapper = document.querySelector(".wrapper");
 const musicImg = wrapper.querySelector(".img-area img");
 const musicName = wrapper.querySelector(".song-details .name");
 const musicArtist = wrapper.querySelector(".song-details .artist");
-const prevBtn = wrapper.querySelector("#prev");
 const playPauseBtn = wrapper.querySelector(".play-pause");
+const prevBtn = wrapper.querySelector("#prev");
 const nextBtn = wrapper.querySelector("#next");
-const moreMusicBtn = wrapper.querySelector("#more-music");
-const musicList = wrapper.querySelector(".music-list");
-const closeMusicBtn = wrapper.querySelector("#close");
-
-//Progress Area elements
-const progressBar = wrapper.querySelector(".progress-bar");
-const progressArea = wrapper.querySelector(".progress-area");
 const mainAudio = wrapper.querySelector("#main-audio");
-const musicCurrentTime = wrapper.querySelector(".current-time");
-const musicMaxDuration = wrapper.querySelector(".max-duration");
+const progressArea = wrapper.querySelector(".progress-area");
+const progressBar = wrapper.querySelector(".progress-bar");
+const musicList = wrapper.querySelector(".music-list");
+const moreMusicBtn = wrapper.querySelector("#more-music");
+const closemoreMusic = wrapper.querySelector("#close");
 
-
-let musicIndex = Math.floor((Math.random() * allMusic.length) + 1 );
+let musicIndex = Math.floor((Math.random() * allMusic.length) + 1);
 let isMusicPaused = true;
 
-window.addEventListener("load", ()=>{
+window.addEventListener("load", () => {
     loadMusic(musicIndex);
     playingSong();
 });
 
-function loadMusic(index){
-    musicName.innerText = allMusic[index - 1].name;
-    musicArtist.innerText = allMusic[index - 1].artist;
+function loadMusic(indexNumb) {
+    musicName.innerText = allMusic[indexNumb - 1].name;
+    musicArtist.innerText = allMusic[indexNumb - 1].artist;
     musicImg.src = `https://cryptonal.github.io/Music-Player/images/${allMusic[index - 1].src}.jpg`;
     mainAudio.src = `https://cryptonal.github.io/Music-Player/songs/${allMusic[index - 1].src}.mp3`;
 }
 
-function playSong(){
-    mainAudio.play();
+//play music function
+function playMusic() {
     wrapper.classList.add("paused");
     playPauseBtn.querySelector("i").innerText = "pause";
+    mainAudio.play();
 }
 
-function pauseMusic(){
-    mainAudio.pause();
-    wrapper.classList.remove("play");
+//pause music function
+function pauseMusic() {
+    wrapper.classList.remove("paused");
     playPauseBtn.querySelector("i").innerText = "play_arrow";
+    mainAudio.pause();
 }
 
-function prevMusic(){
-    //decrement index
-    //if current index is firstone then setting index to the last music in the array of objects.
-    //load music
-    //playmusic
-    //make it current playing music
-    musicIndex--;
-    musicIndex < 1 ? musicIndex = allMusic.length: musicIndex = musicIndex;
+//prev music function
+function prevMusic() {
+    musicIndex--; //decrement of musicIndex by 1
+    //if musicIndex is less than 1 then musicIndex will be the array length so the last music play
+    musicIndex < 1 ? musicIndex = allMusic.length : musicIndex = musicIndex;
     loadMusic(musicIndex);
-    playSong();
+    playMusic();
     playingSong();
 }
 
-function nextMusic(){
-    musicIndex++;
-    musicIndex > musicIndex.length ? musicIndex = 1: musicIndex = musicIndex;
+//next music function
+function nextMusic() {
+    musicIndex++; //increment of musicIndex by 1
+    //if musicIndex is greater than array length then musicIndex will be 1 so the first music play
+    musicIndex > allMusic.length ? musicIndex = 1 : musicIndex = musicIndex;
     loadMusic(musicIndex);
-    playSong();
+    playMusic();
     playingSong();
 }
 
-playPauseBtn.addEventListener('click', ()=>{
-    const isMusicPlaying = wrapper.classList.contains("paused");
-    isMusicPlaying ? pauseMusic() : playSong();
+// play or pause button event
+playPauseBtn.addEventListener("click", () => {
+    const isMusicPlay = wrapper.classList.contains("paused");
+    //if isPlayMusic is true then call pauseMusic else call playMusic
+    isMusicPlay ? pauseMusic() : playMusic();
     playingSong();
 });
 
-nextBtn.addEventListener('click', ()=>{
-    nextMusic();
-})
-
-prevBtn.addEventListener('click', ()=> {
+prevBtn.addEventListener('click', () => {
     prevMusic();
 })
 
-mainAudio.addEventListener('timeupdate', (e)=>{
-    //Progress bar timer
-    //progress width between start or begin and max duration
-    const currentTime = e.target.currentTime;
-    const duration = e.target.duration;
-    let progressWidth = (currentTime / duration) * 100;
-    progressBar.style.width = `${progressWidth}%`;
-    
-    //Max Duration, we need mins and secs
-    //need to call mainAudio again, so while playing time duration gets updated
-    mainAudio.addEventListener('loadeddata', ()=>{
-        let mainAudioDuration = mainAudio.duration;
-        let totalMins = Math.floor(mainAudioDuration / 60);
-        let totalSecs = Math.floor(mainAudioDuration % 60);
-        //if totalSecs is less then 10, need to append 0 before num
-        if(totalSecs< 10){
-            totalSecs = `0${totalSecs}`;
-        }
-        musicMaxDuration.innerText = `${totalMins}:${totalSecs}`;
-    })
-
-    //For current time, we drive totalMins and secs from current time
-    let currentMin = Math.floor(currentTime / 60);
-    let currentSec = Math.floor(currentTime % 60);
-    if(currentSec < 10){
-        currentSec = `0${currentSec}`;
-    }
-    musicCurrentTime.innerHTML = `${currentMin}:${currentSec}`;
+nextBtn.addEventListener("click", () => {
+    nextMusic();
 })
 
-progressArea.addEventListener("click", (e)=>{
-    //For Current value of progressBar
-    //We need total duration of song
-    //value at which mouse clicked -- offsetX from e
-    //progressBar width
-    let progressWidth = progressArea.clientWidth;  //width of progress bar
-    let mouseClicked = e.offsetX;
-    let songDuration = mainAudio.duration;
+mainAudio.addEventListener('timeupdate', (e) => {
+    const currentTime = e.target.currentTime;
+    const duration = e.target.duration;
 
-    mainAudio.currentTime = (mouseClicked / progressWidth) * songDuration;
-    playSong();
+    let progressWidth = (currentTime / duration) * 100;
+    progressBar.style.width = `${progressWidth}%`;
+
+
+    let musicCurrentTime = wrapper.querySelector(".current-time"),
+        musicDuartion = wrapper.querySelector(".max-duration");
+
+    mainAudio.addEventListener("loadeddata", () => {
+        // update song total duration
+        let mainAdDuration = mainAudio.duration;
+        let totalMin = Math.floor(mainAdDuration / 60);
+        let totalSec = Math.floor(mainAdDuration % 60);
+        if (totalSec < 10) { //if sec is less than 10 then add 0 before it
+            totalSec = `0${totalSec}`;
+        }
+
+        musicDuartion.innerText = `${totalMin}:${totalSec}`;
+    });
+
+    // update playing song current time
+    let currentMin = Math.floor(currentTime / 60);
+    let currentSec = Math.floor(currentTime % 60);
+    if (currentSec < 10) { //if sec is less than 10 then add 0 before it
+        currentSec = `0${currentSec}`;
+    }
+    musicCurrentTime.innerText = `${currentMin}:${currentSec}`;
+
+
+});
+
+
+progressArea.addEventListener("click", (e) => {
+    let progressWidth = progressArea.clientWidth; //getting width of progress bar
+    let clickedOffsetX = e.offsetX; //getting offset x value
+    let songDuration = mainAudio.duration; //getting song total duration
+
+    mainAudio.currentTime = (clickedOffsetX / progressWidth) * songDuration;
+    playMusic(); //calling playMusic function
     playingSong();
-}); 
+});
 
 
+//change loop, shuffle, repeat icon onclick
 const repeatBtn = wrapper.querySelector("#repeat-plist");
 
-repeatBtn.addEventListener("click", ()=>{
 
-    let getText = repeatBtn.innerHTML;
+repeatBtn.addEventListener("click", () => {
+    let getText = repeatBtn.innerText;
 
-    switch(getText){
+    switch (getText) {
         case "repeat":
             repeatBtn.innerText = "repeat_one";
             repeatBtn.setAttribute("title", "Song looped");
@@ -142,43 +142,45 @@ repeatBtn.addEventListener("click", ()=>{
             repeatBtn.setAttribute("title", "Playback Shuffled");
             break;
         case "shuffle":
-            repeatBtn.innerHTML = "repeat";
+            repeatBtn.innerText = "repeat";
             repeatBtn.setAttribute("title", "Playlist looped");
             break;
     }
-})
+});
 
-mainAudio.addEventListener("ended", ()=>{
+mainAudio.addEventListener("ended", () => {
     let getText = repeatBtn.innerText;
 
-    switch(getText){
+    switch (getText) {
         case "repeat":
-            nextMusic();
+            nextMusic(); //calling nextMusic function
             break;
         case "repeat_one":
             mainAudio.currentTime = 0;
             loadMusic(musicIndex);
-            playSong();
+            playMusic();
             break;
+
         case "shuffle":
-            let randIndex = Math.floor(Math.random() * allMusic.length) + 1;
-            do{
-                randIndex = Math.floor(Math.random() * allMusic.length) + 1;
-            } while(musicIndex == randIndex);
+            let randIndex = Math.floor((Math.random() * allMusic.length) + 1);
+            do {
+                randIndex = Math.floor((Math.random() * allMusic.length) + 1);
+            } while (musicIndex == randIndex);
             musicIndex = randIndex;
             loadMusic(musicIndex);
-            playSong();
+            playMusic();
             playingSong();
             break;
     }
-
 });
 
-moreMusicBtn.addEventListener("click", ()=>{
+
+//show music list onclick of music icon
+moreMusicBtn.addEventListener("click", () => {
     musicList.classList.toggle("show");
 });
 
-closeMusicBtn.addEventListener("click", ()=>{
+closemoreMusic.addEventListener("click", () => {
     moreMusicBtn.click();
 });
 
@@ -198,6 +200,7 @@ for (let i = 0; i < allMusic.length; i++) {
     `;
 
     ulTag.insertAdjacentHTML("beforeend", liTag);
+
     let liAudioDurationTag = ulTag.querySelector(`#${allMusic[i].src}`);
     let liAudioTag = ulTag.querySelector(`.${allMusic[i].src}`);
 
@@ -216,42 +219,32 @@ for (let i = 0; i < allMusic.length; i++) {
 
 }
 
-function playingSong(){
-    const allLiTag = ulTag.querySelectorAll("li");;
+function playingSong() {
+    const allLiTag = ulTag.querySelectorAll("li");
 
-    //Algo
-     /*
-        --> iterate over all li elements (our music items)
-        --> extract audio duration of each track using getAttribute method
-        --> current music track index to add class playing using classlist property
-        --> And finally click event for each song on list to play
-     */
-
-    for(let j=0; j < allLiTag.length; j++){
+    for (let j = 0; j < allLiTag.length; j++) {
         let audioTag = allLiTag[j].querySelector(".audio-duration");
 
-        if(allLiTag[j].classList.contains("playing")){
+        if (allLiTag[j].classList.contains("playing")) {
             allLiTag[j].classList.remove("playing");
 
             let addDuration = audioTag.getAttribute("t-duration");
             audioTag.innerText = addDuration;
-            }
+        }
 
-            if(allLiTag[j].getAttribute("li-index") == musicIndex){
-                allLiTag[j].classList.add("playing");
-                audioTag.innerText = "Playing";
-            }
+        if (allLiTag[j].getAttribute("li-index") == musicIndex) {
+            allLiTag[j].classList.add("playing");
+            audioTag.innerText = "Playing";
+        }
 
-            //Now, function handdling for if we click any song from playlist
-            allLiTag[j].setAttribute("onclick", "clicked(this)");
+        allLiTag[j].setAttribute("onclick", "clicked(this)");
     }
 }
 
-function clicked(element){
-    let getIndex = element.getAttribute("li-index");
-    musicIndex = getIndex;
+function clicked(element) {
+    let getLiIndex = element.getAttribute("li-index");
+    musicIndex = getLiIndex;
     loadMusic(musicIndex);
-    playSong();
+    playMusic();
     playingSong();
 }
- 
