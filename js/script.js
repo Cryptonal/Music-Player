@@ -25,8 +25,8 @@ window.addEventListener("load", () => {
 function loadMusic(indexNumb) {
     musicName.innerText = allMusic[indexNumb - 1].name;
     musicArtist.innerText = allMusic[indexNumb - 1].artist;
-    musicImg.src = `https://cryptonal.github.io/Music-Player/images/${allMusic[index - 1].src}.jpg`;
-    mainAudio.src = `https://cryptonal.github.io/Music-Player/songs/${allMusic[index - 1].src}.mp3`;
+    musicImg.src = `https://cryptonal.github.io/Music-Player/images/${allMusic[indexNumb - 1].src}.jpg`;
+    mainAudio.src = `https://cryptonal.github.io/Music-Player/songs/${allMusic[indexNumb - 1].src}.mp3`;
 }
 
 //play music function
@@ -237,14 +237,15 @@ function playingSong() {
             audioTag.innerText = "Playing";
         }
 
-        allLiTag[j].setAttribute("onclick", "clicked(this)");
+        allLiTag[j].setAttribute("onclick", clicked(this));
     }
 }
 
 function clicked(element) {
-    let getLiIndex = element.getAttribute("li-index");
-    musicIndex = getLiIndex;
-    loadMusic(musicIndex);
-    playMusic();
-    playingSong();
+        let getLiIndex = element.getAttribute("li-index");
+        musicIndex = getLiIndex;
+        loadMusic(musicIndex);
+        playMusic();
+        playingSong();
 }
+
