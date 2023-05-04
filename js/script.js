@@ -15,7 +15,6 @@ const moreMusicBtn = wrapper.querySelector("#more-music");
 const closemoreMusic = wrapper.querySelector("#close");
 
 let musicIndex = Math.floor((Math.random() * allMusic.length) + 1);
-let isMusicPaused = true;
 
 window.addEventListener("load", () => {
     loadMusic(musicIndex);
